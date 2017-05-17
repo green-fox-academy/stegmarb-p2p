@@ -7,11 +7,12 @@
 </head>
 <body>
   <h1>Enter</h1>
-  <span th:each="user:${currentUser}" th:text="${user}"></span>
-  <form th:action="@{/enter}" th:method="POST">
-    <span>Enter your name:</span>
+  <p th:text="${error}"></p>
+  <form th:action="@{/enter}" th:method="post">
+    <span>Enter your name:
     <input th:type="text" th:placeholder="Username" th:name="username"/>
     <input th:type="submit" th:value="Enter"/>
+    </span>
   </form>
 </body>
 </html>
