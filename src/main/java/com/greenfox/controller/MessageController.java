@@ -26,23 +26,12 @@ public class MessageController {
 
   @RequestMapping("/")
   public String indexSite(Model model) {
-    if (p2PService.isAnyUser()) {
-      return "redirect:/enter";
-    } else {
-      List<Message> messages = new ArrayList<>((Collection) messageRepo.findAll());
-      List<Message> reversedOrderMessages = new ArrayList<>();
-      for (int i = messages.size() - 1; i >= 0; i--) {
-        reversedOrderMessages.add(messages.get(i));
-      }
-      model.addAttribute("currentUser", p2PService.getCurrentUser());
-      model.addAttribute("messages", reversedOrderMessages);
-      return "index";
-    }
+    return p2PService.mainPageHandler(model);
   }
 
   @PostMapping("/")
-  public String addMessage(@RequestParam("username") String username, @RequestParam("message") String message) {
-    messageRepo.save(new Message(username, message));
+  public String addMessage(@RequestParam("message") String message) {
+    messageRepo.save(new Message(p2PService.getCurrentUser(), message));
     return "redirect:/";
   }
 
