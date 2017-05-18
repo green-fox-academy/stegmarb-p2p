@@ -4,6 +4,7 @@ import com.greenfox.model.Message;
 import com.greenfox.model.User;
 import com.greenfox.repository.MessageRepository;
 import com.greenfox.repository.UserRepository;
+import com.greenfox.service.P2PService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,18 +16,20 @@ import java.util.*;
 public class MessageController {
 
   @Autowired
-  MessageRepository messageRepository;
+  MessageRepository messageRepo;
 
   @Autowired
-  UserRepository user;
+  UserRepository userRepo;
+
+  @Autowired
+  P2PService p2PService;
 
   @RequestMapping("/")
   public String indexSite(Model model) {
-    List<Message> messages = new ArrayList<>((Collection) messageRepository.findAll());
+    List<Message> messages = new ArrayList<>((Collection) messageRepo.findAll());
     List<Message> reversedOrderMessages = new ArrayList<>();
     for (int i = messages.size()-1; i >= 0; i--) {
       reversedOrderMessages.add(messages.get(i));
-      System.out.println(messages.get(i));
     }
       model.addAttribute("messages", reversedOrderMessages);
     return "index";
@@ -34,25 +37,19 @@ public class MessageController {
 
   @PostMapping("/")
   public String addMessage(@RequestParam("username") String username, @RequestParam("message") String message) {
-    messageRepository.save(new Message(username, message));
+    messageRepo.save(new Message(username, message));
     return "redirect:/";
   }
 
   @RequestMapping("/enter")
   public String enterPage(Model model) {
-    List<User> users = new ArrayList<>((Collection) user.findAll());
+    List<User> users = new ArrayList<>((Collection) userRepo.findAll());
     model.addAttribute("currentUser", users);
     return "enter";
   }
 
   @RequestMapping(value = "/enter", method = RequestMethod.POST)
   public String enterMessage(Model model, @RequestParam("username") String user) {
-    if (user == "") {
-      model.addAttribute("error", "The username field is empty");
-      return "enter";
-    } else {
-      this.user.save(new User(user));
-      return "redirect:/";
+    return p2PService.setUsername(model, user);
   }
- }
 }
