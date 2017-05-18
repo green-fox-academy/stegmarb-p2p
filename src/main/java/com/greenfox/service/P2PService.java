@@ -3,6 +3,8 @@ package com.greenfox.service;
 import com.greenfox.model.User;
 import com.greenfox.repository.MessageRepository;
 import com.greenfox.repository.UserRepository;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.catalina.LifecycleState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,8 @@ import java.util.Collection;
 import java.util.List;
 
 @Service
+@Getter
+@Setter
 public class P2PService {
 
   @Autowired
@@ -38,7 +42,7 @@ public class P2PService {
 
   public boolean isAnyUser() {
     List<User> users = new ArrayList<>((Collection)userRepo.findAll());
-    return users.size()== 0;
+    return users.size() == 0;
   }
 
   public String setUsername(Model model, String username) {
@@ -74,7 +78,8 @@ public class P2PService {
       System.out.println(user.getUsername());
       userRepo.save(user);
       currentUser = name;
+      System.out.println(currentUser);
     }
-    return "index";
+    return "redirect:/";
   }
 }
