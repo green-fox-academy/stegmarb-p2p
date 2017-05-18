@@ -20,6 +20,4 @@ public class LogMessage {
   private String method;
   private Date dateAndTime;
   private String logLevel;
-
-
 }

@@ -7,10 +7,10 @@
 </head>
 <body>
   <h1>Peer to Peer Chat Application</h1>
-  <h2 th:text="'Logged in as: ' + ${currentUser}"></h2>
+  <!--<h2 th:text="'Logged in as: ' + ${currentUser}"></h2>-->
   <form th:action="@{/}" th:method="put">
     <span>Your username:</span>
-    <input th:type="text" th:placeholder="'New Username'" th:name="username"/>
+    <input th:type="text" th:placeholder="${currentUser}" th:name="username"/>
     <input th:type="submit" th:value="Update"/>
   </form>
     <p></p>

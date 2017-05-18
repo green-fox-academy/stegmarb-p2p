@@ -6,7 +6,6 @@ import com.greenfox.repository.MessageRepository;
 import com.greenfox.repository.UserRepository;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.catalina.LifecycleState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -21,29 +20,11 @@ import java.util.List;
 public class P2PService {
 
   @Autowired
-  MessageRepository messageRepo;
+  private MessageRepository messageRepo;
 
   @Autowired
-  UserRepository userRepo;
-
+  private UserRepository userRepo;
   private String currentUser;
-
-
-
-  public String mainPageHandler(Model model) {
-    if (isAnyUser()) {
-      return "redirect:/enter";
-    } else {
-      List<Message> messages = new ArrayList<>((Collection) messageRepo.findAll());
-      List<Message> reversedOrderMessages = new ArrayList<>();
-      for (int i = messages.size() - 1; i >= 0; i--) {
-        reversedOrderMessages.add(messages.get(i));
-      }
-      model.addAttribute("currentUser", getCurrentUser());
-      model.addAttribute("messages", reversedOrderMessages);
-      return "index";
-    }
-  }
 
   public boolean containsUser(String username) {
     List<User> users = new ArrayList<>((Collection)userRepo.findAll());
@@ -87,15 +68,32 @@ public class P2PService {
     for (User oneUser : users) {
       if (oneUser.getUsername().equals(currentUser)) {
         id = oneUser.getId();
-        System.out.println(id);
       }
       User user = userRepo.findOne(id);
       user.setUsername(name);
-      System.out.println(user.getUsername());
       userRepo.save(user);
       currentUser = name;
-      System.out.println(currentUser);
     }
+    return "redirect:/";
+  }
+
+  public String mainPageHandler(Model model) {
+    if (isAnyUser()) {
+      return "redirect:/enter";
+    } else {
+      List<Message> messages = new ArrayList<>((Collection) messageRepo.findAll());
+      List<Message> reversedOrderMessages = new ArrayList<>();
+      for (int i = messages.size() - 1; i >= 0; i--) {
+        reversedOrderMessages.add(messages.get(i));
+      }
+      model.addAttribute("currentUser", getCurrentUser());
+      model.addAttribute("messages", reversedOrderMessages);
+      return "index";
+    }
+  }
+
+  public String addMessage(String message) {
+    messageRepo.save(new Message(getCurrentUser(), message));
     return "redirect:/";
   }
 }
