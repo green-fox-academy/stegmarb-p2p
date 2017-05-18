@@ -1,49 +1,30 @@
 package com.greenfox.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Entity
+@Getter
+@Setter
 public class Message {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
   private String userName;
   private String message;
+  private String date;
 
   public Message() {
-    this.id = 1000000;
+    this.date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
   }
 
   public Message(String userName, String message) {
-    this.id = 1000000;
     this.userName = userName;
     this.message = message;
-  }
-
-  public long getId() {
-    return id;
-  }
-
-  public void setId(long id) {
-    this.id = id;
-  }
-
-  public String getUserName() {
-    return userName;
-  }
-
-  public void setUserName(String userName) {
-    this.userName = userName;
-  }
-
-  public String getMessage() {
-    return message;
-  }
-
-  public void setMessage(String message) {
-    this.message = message;
+    this.date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
   }
 }

@@ -9,9 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class MessageController {
@@ -25,7 +23,12 @@ public class MessageController {
   @RequestMapping("/")
   public String indexSite(Model model) {
     List<Message> messages = new ArrayList<>((Collection) messageRepository.findAll());
-      model.addAttribute("messages", messages);
+    List<Message> reversedOrderMessages = new ArrayList<>();
+    for (int i = messages.size()-1; i >= 0; i--) {
+      reversedOrderMessages.add(messages.get(i));
+      System.out.println(messages.get(i));
+    }
+      model.addAttribute("messages", reversedOrderMessages);
     return "index";
   }
 
