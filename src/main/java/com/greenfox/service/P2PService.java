@@ -21,6 +21,10 @@ public class P2PService {
   @Autowired
   UserRepository userRepo;
 
+  private String currentUser;
+
+
+
   public boolean containsUser(String username) {
     List<User> users = new ArrayList<>((Collection)userRepo.findAll());
     int counter = 0;
@@ -44,6 +48,7 @@ public class P2PService {
     } else {
       if (isAnyUser()) {
         this.userRepo.save(new User(username));
+        currentUser = username;
         return "redirect:/";
       } else {
         if (containsUser(username)) {
@@ -54,5 +59,22 @@ public class P2PService {
         }
       }
     }
+  }
+
+  public String updateUsername(String name) {
+    List<User> users = new ArrayList<>((Collection)userRepo.findAll());
+    Long id = new Long(0);
+    for (User oneUser : users) {
+      if (oneUser.getUsername().equals(currentUser)) {
+        id = oneUser.getId();
+        System.out.println(id);
+      }
+      User user = userRepo.findOne(id);
+      user.setUsername(name);
+      System.out.println(user.getUsername());
+      userRepo.save(user);
+      currentUser = name;
+    }
+    return "index";
   }
 }

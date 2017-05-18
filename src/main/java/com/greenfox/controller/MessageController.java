@@ -41,6 +41,11 @@ public class MessageController {
     return "redirect:/";
   }
 
+  @PutMapping("/")
+  public String updateUsername(@RequestParam("username") String user) {
+    return p2PService.updateUsername(user);
+  }
+
   @RequestMapping("/enter")
   public String enterPage(Model model) {
     List<User> users = new ArrayList<>((Collection) userRepo.findAll());
@@ -48,8 +53,9 @@ public class MessageController {
     return "enter";
   }
 
-  @RequestMapping(value = "/enter", method = RequestMethod.POST)
+  @PostMapping("/enter")
   public String enterMessage(Model model, @RequestParam("username") String user) {
     return p2PService.setUsername(model, user);
   }
+
 }

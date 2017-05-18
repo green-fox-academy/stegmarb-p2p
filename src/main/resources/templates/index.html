@@ -7,11 +7,13 @@
 </head>
 <body>
   <h1>Peer to Peer Chat Application</h1>
-  <form th:action="@{/}" th:method="post">
+  <form th:action="@{/}" th:method="put">
     <span>Your username:</span>
-    <input th:type="text" th:placeholder="Username" th:name="username"/>
-    <!--<input th:type="submit" th:value="Update"/>-->
+    <input th:type="text" th:placeholder="'New Username'" th:name="username"/>
+    <input th:type="submit" th:value="Update"/>
+  </form>
     <p></p>
+  <form th:action="@{/}" th:method="post">
     <span>Your message: </span>
     <textarea th:type="textboxid" th:name="message" style="width: 300px; height: 50px;"></textarea>
     <input th:type="submit" th:value="Send"/>
