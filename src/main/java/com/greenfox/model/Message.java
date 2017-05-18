@@ -14,7 +14,13 @@ public class Message {
   private String message;
 
   public Message() {
+    this.id = 1000000;
+  }
 
+  public Message(String userName, String message) {
+    this.id = 1000000;
+    this.userName = userName;
+    this.message = message;
   }
 
   public long getId() {

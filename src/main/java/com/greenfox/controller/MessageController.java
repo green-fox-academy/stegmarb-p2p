@@ -1,5 +1,6 @@
 package com.greenfox.controller;
 
+import com.greenfox.model.Message;
 import com.greenfox.model.User;
 import com.greenfox.repository.MessageRepository;
 import com.greenfox.repository.UserRepository;
@@ -22,8 +23,16 @@ public class MessageController {
   UserRepository user;
 
   @RequestMapping("/")
-  public String indexSite() {
+  public String indexSite(Model model) {
+    List<Message> messages = new ArrayList<>((Collection) messageRepository.findAll());
+      model.addAttribute("messages", messages);
     return "index";
+  }
+
+  @PostMapping("/")
+  public String addMessage(@RequestParam("username") String username, @RequestParam("message") String message) {
+    messageRepository.save(new Message(username, message));
+    return "redirect:/";
   }
 
   @RequestMapping("/enter")
@@ -39,7 +48,7 @@ public class MessageController {
       model.addAttribute("error", "The username field is empty");
       return "enter";
     } else {
-    this.user.save(new User(user));
+      this.user.save(new User(user));
       return "redirect:/";
   }
  }
