@@ -37,10 +37,4 @@ public class MessageController {
   public String enterMessage(Model model, @RequestParam("username") String user) {
     return p2PService.setUsername(model, user);
   }
-
-  @PostMapping("/api/message/receive")
-  public void receiveMessage(@RequestBody ReceivedMessage message) {
-    p2PService.receiveNewMessage(message);
-  }
-
 }
