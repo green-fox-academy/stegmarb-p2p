@@ -21,8 +21,8 @@
     <input th:type="submit" th:value="Send"/>
   </form>
   <ul th:each="message : ${messages}">
-    <li th:text="${message.userName}" ></li>
-    <li class="message" th:text="${message.message}"></li>
+    <li th:text="${message.username}" ></li>
+    <li class="message" th:text="${message.text}"></li>
   </ul>
 </body>
 </html>

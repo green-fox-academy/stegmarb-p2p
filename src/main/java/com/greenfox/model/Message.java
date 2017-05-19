@@ -13,8 +13,8 @@ import java.util.Date;
 public class Message {
   @Id
   private long id;
-  private String userName;
-  private String message;
+  private String username;
+  private String text;
   private Timestamp timestamp;
 
   public Message() {
@@ -25,8 +25,15 @@ public class Message {
 
   public Message(String userName, String message) {
     this.id = ((long) (Math.random()*8999999)+1000000);
-    this.userName = userName;
-    this.message = message;
+    this.username = userName;
+    this.text = message;
     this.timestamp = new Timestamp(new Date().getTime());
+  }
+
+  public Message(Long id, String userName, String message, Timestamp timestamp) {
+    this.id = id;
+    this.username = userName;
+    this.text = message;
+    this.timestamp = timestamp;
   }
 }

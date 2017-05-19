@@ -1,6 +1,7 @@
 package com.greenfox.service;
 
 import com.greenfox.model.Message;
+import com.greenfox.model.ReceivedMessage;
 import com.greenfox.model.User;
 import com.greenfox.repository.MessageRepository;
 import com.greenfox.repository.UserRepository;
@@ -24,7 +25,11 @@ public class P2PService {
 
   @Autowired
   private UserRepository userRepo;
+
+  @Autowired
+  private ReceivedMessage recMess;
   private String currentUser;
+  private List<Message> messages = new ArrayList<>();
 
   public boolean containsUser(String username) {
     List<User> users = new ArrayList<>((Collection)userRepo.findAll());
@@ -81,7 +86,6 @@ public class P2PService {
     if (isAnyUser()) {
       return "redirect:/enter";
     } else {
-      List<Message> messages = new ArrayList<>((Collection) messageRepo.findAll());
       List<Message> reversedOrderMessages = new ArrayList<>();
       for (int i = messages.size() - 1; i >= 0; i--) {
         reversedOrderMessages.add(messages.get(i));
@@ -94,6 +98,14 @@ public class P2PService {
 
   public String addMessage(String message) {
     messageRepo.save(new Message(getCurrentUser(), message));
+    messages.add(new Message(getCurrentUser(), message));
     return "redirect:/";
+  }
+
+  public void receiveNewMessage(ReceivedMessage newMessage) {
+    System.out.println(newMessage.getMessage());
+    messageRepo.save(newMessage.getMessage());
+    messages.add(newMessage.getMessage());
+
   }
 }
