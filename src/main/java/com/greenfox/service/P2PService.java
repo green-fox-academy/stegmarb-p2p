@@ -106,6 +106,7 @@ public class P2PService {
     System.out.println(newMessage.getMessage());
     messageRepo.save(newMessage.getMessage());
     messages.add(newMessage.getMessage());
+    System.out.println(messages);
 
   }
 }

@@ -1,6 +1,5 @@
 package com.greenfox.controller;
 
-import com.greenfox.model.Message;
 import com.greenfox.model.ReceivedMessage;
 import com.greenfox.service.P2PService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +39,7 @@ public class MessageController {
   }
 
   @PostMapping("/api/message/receive")
-  public void receiveMessage(ReceivedMessage message) {
+  public void receiveMessage(@RequestBody ReceivedMessage message) {
     p2PService.receiveNewMessage(message);
   }
 
