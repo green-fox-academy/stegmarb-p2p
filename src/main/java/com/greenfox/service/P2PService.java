@@ -26,7 +26,7 @@ public class P2PService {
 
   @Autowired
   private ReceivedMessage recMess;
-  private String currentUser;
+  private String currentUser = System.getenv("CHAT_APP_UNIQUE_ID");
   private List<Message> messages = new ArrayList<>();
   private RestTemplate template = new RestTemplate();
 
@@ -97,18 +97,20 @@ public class P2PService {
   }
 
   public String addMessage(String message) {
-    messageRepo.save(new Message(getCurrentUser(), message));
-    messages.add(new Message(getCurrentUser(), message));
-    ReceivedMessage sentMessage = new ReceivedMessage(new Message(getCurrentUser(), message),new Client(System.getenv("CHAT_APP_UNIQUE_ID")));
-    template.postForObject(System.getenv("CHAT_APP_PEER_ADDRESS" + "/api/message/receive"), sentMessage, StatusOkMessage.class);
-    System.out.println(System.getenv("CHAT_APP_PEER_ADDRESS" + "/api/message/receive"));
+    messageRepo.save(new Message(currentUser, message));
+    messages.add(new Message(currentUser, message));
+    System.out.println(System.getenv("CHAT_APP_PEER_ADDRESS") + "/api/message/receive");
+    ReceivedMessage sentMessage = new ReceivedMessage(new Message(currentUser, message),new Client(System.getenv("CHAT_APP_UNIQUE_ID")));
+    template.postForObject(System.getenv("CHAT_APP_PEER_ADDRESS") + "/api/message/receive", sentMessage, StatusOkMessage.class);
     return "redirect:/";
   }
 
   public void receiveNewMessage(ReceivedMessage newMessage) {
     messageRepo.save(newMessage.getMessage());
     messages.add(newMessage.getMessage());
-
+    if (!newMessage.getClient().getId().equals(System.getenv("CHAT_APP_UNIQUE_ID"))) {
+      template.postForObject(System.getenv("CHAT_APP_PEER_ADDRESS") + "/api/message/receive", newMessage, StatusOkMessage.class);
+    }
   }
 
 //  public String missingSomething(ReceivedMessage message) {

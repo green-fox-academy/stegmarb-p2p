@@ -23,9 +23,9 @@ public class Message {
 //    this.date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
   }
 
-  public Message(String userName, String message) {
+  public Message(String username, String message) {
     this.id = ((long) (Math.random()*8999999)+1000000);
-    this.username = userName;
+    this.username = username;
     this.text = message;
     this.timestamp = new Timestamp(new Date().getTime());
   }
