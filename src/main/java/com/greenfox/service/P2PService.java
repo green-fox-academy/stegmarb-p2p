@@ -1,22 +1,14 @@
 package com.greenfox.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.greenfox.model.*;
 import com.greenfox.repository.MessageRepository;
 import com.greenfox.repository.UserRepository;
-import com.sun.deploy.net.HttpResponse;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.client.RestTemplate;
-import sun.net.www.http.HttpClient;
-
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
