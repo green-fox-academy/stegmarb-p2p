@@ -8,8 +8,13 @@ import lombok.Setter;
 public class MissingError extends StatusOkMessage{
   private String message;
 
-  public MissingError(String message) {
+  public MissingError() {
     super();
+    this.message = "Missing field(s):";
+  }
+
+  public MissingError(String status, String message) {
+    super(status);
     this.message = message;
   }
 }

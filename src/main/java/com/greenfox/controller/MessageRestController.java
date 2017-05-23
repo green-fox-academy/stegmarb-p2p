@@ -1,6 +1,5 @@
 package com.greenfox.controller;
 
-import com.greenfox.model.MissingError;
 import com.greenfox.model.ReceivedMessage;
 import com.greenfox.model.StatusOkMessage;
 import com.greenfox.service.P2PService;
@@ -18,8 +17,6 @@ public class MessageRestController {
   @CrossOrigin("*")
   @PostMapping("/api/message/receive")
   public StatusOkMessage receiveMessage(@RequestBody ReceivedMessage message) throws IOException {
-    p2PService.receiveNewMessage(message);
-    return new StatusOkMessage();
+    return p2PService.receiveNewMessage(message);
   }
-
 }

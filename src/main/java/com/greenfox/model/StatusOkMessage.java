@@ -11,4 +11,8 @@ public class StatusOkMessage {
   public StatusOkMessage() {
     status = "ok";
   }
+
+  public StatusOkMessage(String status) {
+    this.status = status;
+  }
 }

@@ -26,6 +26,8 @@ public class P2PService {
 
   @Autowired
   private ReceivedMessage recMess;
+  private final String userId = System.getenv("CHAT_APP_UNIQUE_ID");
+  private final String peerAddress = System.getenv("CHAT_APP_PEER_ADDRESS");
   private String currentUser = System.getenv("CHAT_APP_UNIQUE_ID");
   private List<Message> messages = new ArrayList<>();
   private RestTemplate template = new RestTemplate();
@@ -99,32 +101,43 @@ public class P2PService {
   public String addMessage(String message) {
     messageRepo.save(new Message(currentUser, message));
     messages.add(new Message(currentUser, message));
-    System.out.println(System.getenv("CHAT_APP_PEER_ADDRESS") + "/api/message/receive");
-    ReceivedMessage sentMessage = new ReceivedMessage(new Message(currentUser, message),new Client(System.getenv("CHAT_APP_UNIQUE_ID")));
-    template.postForObject(System.getenv("CHAT_APP_PEER_ADDRESS") + "/api/message/receive", sentMessage, StatusOkMessage.class);
+    ReceivedMessage sentMessage = new ReceivedMessage(new Message(currentUser, message),new Client(userId));
+    template.postForObject(peerAddress + "/api/message/receive", sentMessage, StatusOkMessage.class);
     return "redirect:/";
   }
 
-  public void receiveNewMessage(ReceivedMessage newMessage) {
+  public StatusOkMessage receiveNewMessage(ReceivedMessage newMessage) {
+    ReceivedMessage temp = new ReceivedMessage(newMessage.getMessage(), newMessage.getClient());
     messageRepo.save(newMessage.getMessage());
     messages.add(newMessage.getMessage());
-    if (!newMessage.getClient().getId().equals(System.getenv("CHAT_APP_UNIQUE_ID"))) {
-      template.postForObject(System.getenv("CHAT_APP_PEER_ADDRESS") + "/api/message/receive", newMessage, StatusOkMessage.class);
+    try {
+      if (!newMessage.getClient().getId().equals(userId)) {
+        template.postForObject(peerAddress + "/api/message/receive", temp , StatusOkMessage.class);
+      }
+    } catch (NullPointerException e) {}
+    if (missingSomething(newMessage).equals("ok")) {
+      return new StatusOkMessage("ok");
+    } else {
+      return new MissingError("error", missingSomething(newMessage));
     }
   }
 
-//  public String missingSomething(ReceivedMessage message) {
-//    String missingThings = "Missing field(s): ";
-//    if (message.getMessage().getText().isEmpty()) {
-//      missingThings += "message.text, ";
-//    } if (message.getMessage().getUsername().isEmpty()) {
-//      missingThings += "message.username, ";
-//    }
-//    return missingThings;
-//  }
-//
-//  public void sendMessage(ReceivedMessage message) {
-//    template.postForLocation(System.getenv("CHAT_APP_PEER_ADDRESS"), message);
-//  }
+  public String missingSomething(ReceivedMessage message) {
+    String missingThings = "Missing field(s): ";
+    if (message.getMessage().getText() == null) {
+      missingThings += "message.text, ";
+    } if (message.getMessage().getUsername() == null) {
+      missingThings += "message.username, ";
+    } if (message.getMessage().getTimestamp() == null) {
+      missingThings += "message.timestamp, ";
+    } if (message.getMessage().getId() == 0) {
+      missingThings += "message.id, ";
+    } if (message.getClient().getId() == null) {
+      missingThings += "client.id, ";
+    } if (missingThings.length() < 19) {
+      missingThings = "ok";
+    }
+    return missingThings;
+  }
 
 }
