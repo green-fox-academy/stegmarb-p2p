@@ -6,7 +6,6 @@ import com.greenfox.repository.UserRepository;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.client.RestTemplate;
@@ -99,10 +98,8 @@ public class P2PService {
   public String addMessage(String message) {
     messageRepo.save(new Message(getCurrentUser(), message));
     messages.add(new Message(getCurrentUser(), message));
-    HttpEntity<ReceivedMessage> sentMessage = new HttpEntity<>(new ReceivedMessage
-        (new Message(getCurrentUser(), message),new Client(System.getenv("CHAT_APP_UNIQUE_ID"))));
-    template.postForLocation(System.getenv("CHAT_APP_PEER_ADDRESS"), sentMessage);
-
+    ReceivedMessage sentMessage = new ReceivedMessage(new Message(getCurrentUser(), message),new Client(System.getenv("CHAT_APP_UNIQUE_ID")));
+    template.postForObject(System.getenv("CHAT_APP_PEER_ADDRESS"), sentMessage, StatusOkMessage.class);
     return "redirect:/";
   }
 
