@@ -28,6 +28,7 @@ public class P2PService {
   private ReceivedMessage recMess;
   private String currentUser;
   private List<Message> messages = new ArrayList<>();
+  private RestTemplate template = new RestTemplate();
 
   public boolean containsUser(String username) {
     List<User> users = new ArrayList<>((Collection)userRepo.findAll());
@@ -97,6 +98,9 @@ public class P2PService {
   public String addMessage(String message) {
     messageRepo.save(new Message(getCurrentUser(), message));
     messages.add(new Message(getCurrentUser(), message));
+    ReceivedMessage sentMessage = new ReceivedMessage(new Message(getCurrentUser(), message),new Client(System.getenv("CHAT_APP_UNIQUE_ID")));
+    template.postForLocation(System.getenv("CHAT_APP_PEER_ADDRESS"), sentMessage);
+
     return "redirect:/";
   }
 
@@ -117,7 +121,6 @@ public class P2PService {
   }
 
   public void sendMessage(ReceivedMessage message) {
-    RestTemplate template = new RestTemplate();
     template.postForLocation(System.getenv("CHAT_APP_PEER_ADDRESS"), message);
   }
 
