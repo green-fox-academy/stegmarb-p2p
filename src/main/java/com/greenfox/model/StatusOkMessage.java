@@ -8,7 +8,7 @@ import lombok.Setter;
 public class StatusOkMessage {
   private String status;
 
-  public StatusOkMessage(String status) {
-    this.status = status;
+  public StatusOkMessage() {
+    status = "ok";
   }
 }

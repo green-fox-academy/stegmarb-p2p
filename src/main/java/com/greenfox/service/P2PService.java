@@ -30,6 +30,7 @@ public class P2PService {
   private List<Message> messages = new ArrayList<>();
   private RestTemplate template = new RestTemplate();
 
+
   public boolean containsUser(String username) {
     List<User> users = new ArrayList<>((Collection)userRepo.findAll());
     int counter = 0;
@@ -99,7 +100,8 @@ public class P2PService {
     messageRepo.save(new Message(getCurrentUser(), message));
     messages.add(new Message(getCurrentUser(), message));
     ReceivedMessage sentMessage = new ReceivedMessage(new Message(getCurrentUser(), message),new Client(System.getenv("CHAT_APP_UNIQUE_ID")));
-    template.postForObject(System.getenv("CHAT_APP_PEER_ADDRESS"), sentMessage, StatusOkMessage.class);
+    template.postForObject(System.getenv("CHAT_APP_PEER_ADDRESS" + "/api/message/receive"), sentMessage, StatusOkMessage.class);
+    System.out.println(System.getenv("CHAT_APP_PEER_ADDRESS" + "/api/message/receive"));
     return "redirect:/";
   }
 

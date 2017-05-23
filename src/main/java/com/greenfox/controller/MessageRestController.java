@@ -23,6 +23,6 @@ public class MessageRestController {
   public StatusOkMessage receiveMessage(@RequestBody ReceivedMessage message) throws IOException {
     p2PService.receiveNewMessage(message);
 //    p2PService.sendMessage(message);
-    return new StatusOkMessage("ok");
+    return new StatusOkMessage();
   }
 }

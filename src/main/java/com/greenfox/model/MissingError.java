@@ -8,8 +8,8 @@ import lombok.Setter;
 public class MissingError extends StatusOkMessage{
   private String message;
 
-  public MissingError(String status, String message) {
-    super(status);
+  public MissingError(String message) {
+    super();
     this.message = message;
   }
 }
