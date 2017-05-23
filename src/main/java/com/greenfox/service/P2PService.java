@@ -10,6 +10,7 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.client.RestTemplate;
 import sun.net.www.http.HttpClient;
 
 import java.io.IOException;
@@ -123,7 +124,9 @@ public class P2PService {
     return missingThings;
   }
 
-//  public StatusOkMessage responseMessage() throws IOException {
-//  }
+  public void sendMessage(ReceivedMessage message) {
+    RestTemplate template = new RestTemplate();
+    template.postForLocation(System.getenv("CHAT_APP_PEER_ADDRESS"), message);
+  }
 
 }

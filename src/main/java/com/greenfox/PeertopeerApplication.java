@@ -11,5 +11,6 @@ public class PeertopeerApplication {
 	public static void main(String[] args) {
     SpringApplication.run(PeertopeerApplication.class, args);
     System.out.println(System.getenv("CHAT_APP_LOGLEVEL"));
+    System.out.println(System.getenv("CHAT_APP_UNIQUE_ID"));
   }
 }

@@ -2,6 +2,7 @@ package com.greenfox.controller;
 
 import com.greenfox.model.MissingError;
 import com.greenfox.model.ReceivedMessage;
+import com.greenfox.model.StatusOkMessage;
 import com.greenfox.service.P2PService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,8 +20,9 @@ public class MessageRestController {
 
   @CrossOrigin("*")
   @PostMapping("/api/message/receive")
-  public MissingError receiveMessage(@RequestBody ReceivedMessage message) throws IOException {
+  public StatusOkMessage receiveMessage(@RequestBody ReceivedMessage message) throws IOException {
     p2PService.receiveNewMessage(message);
-    return new MissingError("error", p2PService.missingSomething(message));
+//    p2PService.sendMessage(message);
+    return new StatusOkMessage("ok");
   }
 }
