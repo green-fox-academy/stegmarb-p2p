@@ -107,12 +107,13 @@ public class P2PService {
   }
 
   public StatusOkMessage receiveNewMessage(ReceivedMessage newMessage) {
-    ReceivedMessage temp = new ReceivedMessage(newMessage.getMessage(), newMessage.getClient());
-    messageRepo.save(newMessage.getMessage());
-    messages.add(newMessage.getMessage());
+    ReceivedMessage temp = newMessage;
+    System.out.println(newMessage.getMessage().getId());
     try {
       if (!newMessage.getClient().getId().equals(userId)) {
-        template.postForObject(peerAddress + "/api/message/receive", temp , StatusOkMessage.class);
+        template.postForObject(peerAddress + "/api/message/receive", temp, StatusOkMessage.class);
+        messageRepo.save(newMessage.getMessage());
+        messages.add(newMessage.getMessage());
       }
     } catch (NullPointerException e) {}
     if (missingSomething(newMessage).equals("ok")) {
@@ -139,5 +140,4 @@ public class P2PService {
     }
     return missingThings;
   }
-
 }

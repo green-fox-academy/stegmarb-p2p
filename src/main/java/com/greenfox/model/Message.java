@@ -29,11 +29,4 @@ public class Message {
     this.text = message;
     this.timestamp = new Timestamp(new Date().getTime());
   }
-
-  public Message(Long id, String userName, String message, Timestamp timestamp) {
-    this.id = id;
-    this.username = userName;
-    this.text = message;
-    this.timestamp = timestamp;
-  }
 }
