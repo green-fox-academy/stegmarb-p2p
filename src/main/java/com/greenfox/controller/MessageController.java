@@ -13,7 +13,7 @@ public class MessageController {
   @Autowired
   P2PService p2PService;
 
-  @RequestMapping("/")
+  @GetMapping("/")
   public String indexSite(Model model) {
     return p2PService.mainPageHandler(model);
   }
@@ -28,7 +28,7 @@ public class MessageController {
     return p2PService.updateUsername(user);
   }
 
-  @RequestMapping("/enter")
+  @GetMapping("/enter")
   public String enterPage() {
     return "enter";
   }

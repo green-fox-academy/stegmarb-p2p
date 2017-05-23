@@ -1,16 +1,21 @@
 package com.greenfox.service;
 
-import com.greenfox.model.Message;
-import com.greenfox.model.ReceivedMessage;
-import com.greenfox.model.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.greenfox.model.*;
 import com.greenfox.repository.MessageRepository;
 import com.greenfox.repository.UserRepository;
+import com.sun.deploy.net.HttpResponse;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import sun.net.www.http.HttpClient;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -103,10 +108,22 @@ public class P2PService {
   }
 
   public void receiveNewMessage(ReceivedMessage newMessage) {
-    System.out.println(newMessage.getMessage());
     messageRepo.save(newMessage.getMessage());
     messages.add(newMessage.getMessage());
-    System.out.println(messages);
 
   }
+
+  public String missingSomething(ReceivedMessage message) {
+    String missingThings = "Missing field(s): ";
+    if (message.getMessage().getText().isEmpty()) {
+      missingThings += "message.text, ";
+    } if (message.getMessage().getUsername().isEmpty()) {
+      missingThings += "message.username, ";
+    }
+    return missingThings;
+  }
+
+//  public StatusOkMessage responseMessage() throws IOException {
+//  }
+
 }
