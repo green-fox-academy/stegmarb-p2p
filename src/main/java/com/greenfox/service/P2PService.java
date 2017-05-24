@@ -107,15 +107,12 @@ public class P2PService {
   }
 
   public StatusOkMessage receiveNewMessage(ReceivedMessage newMessage) {
-    ReceivedMessage temp = newMessage;
     System.out.println(newMessage.getMessage().getId());
-    try {
       if (!newMessage.getClient().getId().equals(userId)) {
-        template.postForObject(peerAddress + "/api/message/receive", temp, StatusOkMessage.class);
+        template.postForObject(peerAddress + "/api/message/receive", newMessage, StatusOkMessage.class);
         messageRepo.save(newMessage.getMessage());
         messages.add(newMessage.getMessage());
       }
-    } catch (NullPointerException e) {}
     if (missingSomething(newMessage).equals("ok")) {
       return new StatusOkMessage("ok");
     } else {
@@ -126,15 +123,15 @@ public class P2PService {
   public String missingSomething(ReceivedMessage message) {
     String missingThings = "Missing field(s): ";
     if (message.getMessage().getText() == null) {
-      missingThings += "message.text, ";
+      missingThings += "message.text ";
     } if (message.getMessage().getUsername() == null) {
-      missingThings += "message.username, ";
+      missingThings += "message.username ";
     } if (message.getMessage().getTimestamp() == null) {
-      missingThings += "message.timestamp, ";
+      missingThings += "message.timestamp ";
     } if (message.getMessage().getId() == 0) {
-      missingThings += "message.id, ";
+      missingThings += "message.id ";
     } if (message.getClient().getId() == null) {
-      missingThings += "client.id, ";
+      missingThings += "client.id ";
     } if (missingThings.length() < 19) {
       missingThings = "ok";
     }
