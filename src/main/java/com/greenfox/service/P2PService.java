@@ -107,12 +107,12 @@ public class P2PService {
   }
 
   public StatusOkMessage receiveNewMessage(ReceivedMessage newMessage) {
+    if (missingSomething(newMessage).equals("ok")) {
       if (!newMessage.getClient().getId().equals(userId)) {
         template.postForObject(peerAddress + "/api/message/receive", newMessage, StatusOkMessage.class);
         messageRepo.save(newMessage.getMessage());
         messages.add(newMessage.getMessage());
       }
-    if (missingSomething(newMessage).equals("ok")) {
       return new StatusOkMessage("ok");
     } else {
       return new MissingError("error", missingSomething(newMessage));
