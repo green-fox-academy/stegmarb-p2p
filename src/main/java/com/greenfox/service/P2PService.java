@@ -107,7 +107,6 @@ public class P2PService {
   }
 
   public StatusOkMessage receiveNewMessage(ReceivedMessage newMessage) {
-    System.out.println(newMessage.getMessage().getId());
       if (!newMessage.getClient().getId().equals(userId)) {
         template.postForObject(peerAddress + "/api/message/receive", newMessage, StatusOkMessage.class);
         messageRepo.save(newMessage.getMessage());
