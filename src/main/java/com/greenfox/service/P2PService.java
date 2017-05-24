@@ -32,9 +32,16 @@ public class P2PService {
   private List<Message> messages = new ArrayList<>();
   private RestTemplate template = new RestTemplate();
 
+  public P2PService() {
+
+  }
+
+  public List<User> listUsers() {
+    return new ArrayList<>((Collection)userRepo.findAll());
+  }
 
   public boolean containsUser(String username) {
-    List<User> users = new ArrayList<>((Collection)userRepo.findAll());
+    List<User> users = listUsers();
     int counter = 0;
     for (User oneUser : users) {
       if (oneUser.getUsername().equals(username)) {
@@ -45,12 +52,12 @@ public class P2PService {
   }
 
   public boolean isAnyUser() {
-    List<User> users = new ArrayList<>((Collection)userRepo.findAll());
+    List<User> users = listUsers();
     return users.size() == 0;
   }
 
   public String setUsername(Model model, String username) {
-    if (username == "") {
+    if (username.equals("")) {
       model.addAttribute("error", "The username field is empty");
       return "enter";
     } else {
@@ -70,8 +77,8 @@ public class P2PService {
   }
 
   public String updateUsername(String name) {
-    List<User> users = new ArrayList<>((Collection)userRepo.findAll());
-    Long id = new Long(0);
+    List<User> users = listUsers();
+    Long id = 0L;
     for (User oneUser : users) {
       if (oneUser.getUsername().equals(currentUser)) {
         id = oneUser.getId();
