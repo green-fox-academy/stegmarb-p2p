@@ -121,9 +121,9 @@ public class P2PService {
 
   public String missingSomething(ReceivedMessage message) {
     String missingThings = "Missing field(s): ";
-    if (message.getMessage().getText() == null) {
+    if (message.getMessage().getText() == null || message.getMessage().getText().equals("")) {
       missingThings += "message.text ";
-    } if (message.getMessage().getUsername() == null) {
+    } if (message.getMessage().getUsername() == null || message.getMessage().getUsername().equals("")) {
       missingThings += "message.username ";
     } if (message.getMessage().getTimestamp() == null) {
       missingThings += "message.timestamp ";
