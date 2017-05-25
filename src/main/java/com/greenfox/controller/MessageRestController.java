@@ -18,6 +18,5 @@ public class MessageRestController {
   @PostMapping("/api/message/receive")
   public StatusOkMessage receiveMessage(@RequestBody ReceivedMessage message) throws IOException {
     return p2PService.receiveNewMessage(message);
-//    return new StatusOkMessage("ok");
   }
 }

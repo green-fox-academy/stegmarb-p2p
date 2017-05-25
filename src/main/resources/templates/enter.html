@@ -3,16 +3,26 @@
 <head>
   <title>Peer To Peer Chat Application</title>
   <link rel="stylesheet" th:href="@{/style.css}" />
+  <link href="webjars/bootstrap/3.3.7-1/css/bootstrap.min.css" rel="stylesheet"/>
   <meta charset="utf-8" />
 </head>
 <body>
   <h1>Enter</h1>
-  <p th:text="${error}"></p>
-  <form th:action="@{/enter}" th:method="post">
-    <span>Enter your name:
-    <input th:type="text" th:placeholder="Username" th:name="username"/>
-    <input th:type="submit" th:value="Enter"/>
-    </span>
-  </form>
+  <p class="alert alert-warning" role="alert" th:text="${error}"></p>
+  <div class="container-fluid">
+    <form class="form-horizontal" th:action="@{/enter}" th:method="post">
+      <div class="form-group form-group-sm">
+        <label class="col-sm-2 control-label">Enter your name</label>
+          <div class="col-lg-4">
+        <!--<span>Enter your name:-->
+            <input class="form-control" th:type="text" th:placeholder="Username" th:name="username"/>
+              <p></p>
+            <input class="btn btn-default btn-xs" th:type="submit" th:value="Enter"/>
+          </div>
+      </div>
+    </form>
+  </div>
+  <script src="webjars/jquery/1.11.1/jquery.min.js"></script>
+  <script src="webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
 </body>
 </html>

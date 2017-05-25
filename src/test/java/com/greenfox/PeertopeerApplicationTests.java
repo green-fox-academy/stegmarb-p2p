@@ -81,5 +81,6 @@ public class PeertopeerApplicationTests {
             "\"timestamp\": 1322018752992}, \"client\": {\"id\": \"EggDice\"}}"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.status").value("ok"));
+
   }
 }

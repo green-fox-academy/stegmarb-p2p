@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -15,9 +16,14 @@ import java.util.Date;
 public class LogMessage {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private long id;
+  private Long id;
   private String path;
   private String method;
-  private Date dateAndTime;
+  private Timestamp dateAndTime;
   private String logLevel;
+
+
+  public LogMessage() {
+
+  }
 }

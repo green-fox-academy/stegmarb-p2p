@@ -18,13 +18,12 @@ public class Message {
   private Timestamp timestamp;
 
   public Message() {
-    this.id = ((long) (Math.random()*8999999)+1000000);
+    this.id = ((long) (Math.random()*9000000)+1000000);
     this.timestamp = new Timestamp(new Date().getTime());
-//    this.date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
   }
 
   public Message(String username, String message) {
-    this.id = ((long) (Math.random()*8999999)+1000000);
+    this.id = ((long) (Math.random()*9000000)+1000000);
     this.username = username;
     this.text = message;
     this.timestamp = new Timestamp(new Date().getTime());

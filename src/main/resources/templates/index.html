@@ -1,29 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <title>Peer To Peer Chat Application</title>
-  <link rel="stylesheet" th:href="@{/style.css}" />
-  <meta charset="utf-8" />
-</head>
-<body>
-  <h1>Peer to Peer Chat Application</h1>
-  <!--<h2 th:text="'Logged in as: ' + ${currentUser}"></h2>-->
-  <form th:action="@{/}" th:method="put">
-    <span>Your username:</span>
-    <input th:type="text" th:placeholder="${currentUser}" th:name="username"/>
-    <input th:type="submit" th:value="Update"/>
-  </form>
-    <p></p>
-  <form th:action="@{/}" th:method="post">
-    <h2>Recent messages</h2>
-    <span>Your message: </span>
-    <textarea th:type="text" th:name="message" style="width: 300px; height: 50px;"></textarea>
-    <input th:type="submit" th:value="Send"/>
-  </form>
-  <a href="/">Refresh</a>
-  <ul th:each="message : ${messages}">
-    <li th:text="${message.username}" ></li>
-    <li class="message" th:text="${message.text}"></li>
-  </ul>
-</body>
+  <head>
+    <title>Peer To Peer Chat Application</title>
+    <link rel="stylesheet" th:href="@{/style.css}" />
+    <link href="webjars/bootstrap/3.3.7-1/css/bootstrap.min.css" rel="stylesheet"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  </head>
+  <body>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <h2 class="navbar-text">Peer to Peer Chat Application</h2>
+        <form class="nav navbar-form navbar-right" th:action="@{/}" th:method="put">
+          <div class="form-group">
+            <laber class="ExampleInputName2">Update your name:</laber>
+            <input th:type="text" class="form-control" th:placeholder="${currentUser}" th:name="username"/>
+          </div>
+          <input class="btn btn-default btn-ms" th:type="submit" th:value="Update"/>
+        </form>
+    </div>
+  </nav>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3">
+        <form th:action="@{/}" th:method="post">
+          <h3 class="form-signing-heading">Write your message:</h3>
+          <textarea class="form-control" rows="5" th:type="text" th:name="message" style="width: 300px; height: 50px;"></textarea>
+          <p></p>
+          <input class="btn btn-default btn-ms" th:type="submit" th:value="Send"/>
+        </form>
+        <p></p>
+        <a class="reload"  href="/"><img src="refresh-icon.png" alt="Reload" width="72" height="72"/></a>
+      </div>
+      <div class="col-md-7 col-md-offset-1">
+        <h3>Recent messages:</h3>
+        <ul th:each="message : ${messages}">
+          <div class="panel panel-default">
+          <div class="panel-heading">
+          <li class="message" th:text="'Sent by: ' + ${message.username} +  ' at ' + ${message.timestamp}" ></li>
+          </div>
+          <div class="panel-body">
+          <li class="message" th:text="'Message: ' + ${message.text}"></li>
+          </div>
+          </div>
+        </ul>
+      </div>
+    </div>
+  </div>
+    <script src="webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script src="webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+  </body>
 </html>
