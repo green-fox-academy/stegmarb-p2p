@@ -1,6 +1,5 @@
 package com.greenfox.controller;
 
-import com.greenfox.model.ReceivedMessage;
 import com.greenfox.service.P2PService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
